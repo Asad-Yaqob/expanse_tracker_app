@@ -56,23 +56,23 @@ class _NewExpenseState extends State<NewExpense> {
     //     ),
     //   );
     // } else {
-      showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-          title: const Text('Invalid Input!'),
-          content: const Text(
-              'Please make sure a valid title, amount, date and category was entered.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(ctx);
-              },
-              child: const Text('Okay'),
-            )
-          ],
-        ),
-      );
-    }
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Invalid Input!'),
+        content: const Text(
+            'Please make sure a valid title, amount, date and category was entered.'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+            },
+            child: const Text('Okay'),
+          )
+        ],
+      ),
+    );
+  }
   // }
 
   void _submitExpenseData() {
@@ -94,6 +94,12 @@ class _NewExpenseState extends State<NewExpense> {
           date: _selectedDate!),
     );
     Navigator.pop(context);
+  }
+
+  void updateSelectedCategory(Category category) {
+    setState(() {
+      _selectedCategory = category;
+    });
   }
 
   @override
@@ -147,12 +153,17 @@ class _NewExpenseState extends State<NewExpense> {
               if (width >= 600)
                 Row(
                   children: [
-                    MyDropdownButton(selectedCategory: _selectedCategory),
+                    MyDropdownButton(
+                      selectedCategory: _selectedCategory,
+                      onChangedCategory: updateSelectedCategory,
+                    ),
                     const SizedBox(
                       width: 24,
                     ),
                     Expanded(
-                      child: MyDatePicker(selectedDate: _selectedDate, datePicker:_presentDatePicker),
+                      child: MyDatePicker(
+                          selectedDate: _selectedDate,
+                          datePicker: _presentDatePicker),
                     ),
                   ],
                 )
@@ -173,7 +184,9 @@ class _NewExpenseState extends State<NewExpense> {
                       width: 16,
                     ),
                     Expanded(
-                      child:  MyDatePicker(selectedDate: _selectedDate, datePicker:_presentDatePicker),
+                      child: MyDatePicker(
+                          selectedDate: _selectedDate,
+                          datePicker: _presentDatePicker),
                     ),
                   ],
                 ),
@@ -199,7 +212,10 @@ class _NewExpenseState extends State<NewExpense> {
               else
                 Row(
                   children: [
-                    MyDropdownButton(selectedCategory: _selectedCategory),
+                    MyDropdownButton(
+                      selectedCategory: _selectedCategory,
+                      onChangedCategory: updateSelectedCategory,
+                    ),
                     const Spacer(),
                     TextButton(
                       onPressed: () {

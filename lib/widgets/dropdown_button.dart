@@ -1,40 +1,36 @@
 import 'package:expanse_tracker/modal/expense.dart';
 import 'package:flutter/material.dart';
 
-class MyDropdownButton extends StatefulWidget {
-  MyDropdownButton({super.key, required this.selectedCategory});
+class MyDropdownButton extends StatelessWidget {
+  const MyDropdownButton(
+      {super.key,
+      required this.selectedCategory,
+      required this.onChangedCategory
+      });
 
-  Category selectedCategory;
+  final Category selectedCategory;
+  final void Function(Category category) onChangedCategory;
 
-  @override
-  State<MyDropdownButton> createState() {
-    return _MyDropdownButtonState();
-  }
-}
-
-class _MyDropdownButtonState extends State<MyDropdownButton> {
   @override
   Widget build(context) {
     return DropdownButton(
-        value: widget.selectedCategory,
+        value: selectedCategory,
         items: Category.values
             .map(
               (category) => DropdownMenuItem(
                 value: category,
                 child: Text(
                   category.name,
-                style: TextStyle(color: Theme.of(context).textTheme.bodySmall!.color),
+                  style: TextStyle(
+                      color: Theme.of(context).textTheme.bodySmall!.color),
                 ),
               ),
             )
             .toList(),
-        onChanged: (value) {
-          setState(() {
-            if (value == null) {
-              return;
-            }
-            widget.selectedCategory = value;
-          });
+           onChanged: (value) {
+              if (value != null) {
+                onChangedCategory(value);
+              }
         });
   }
 }
